@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blox Fruits Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #status {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>İstediğiniz Perm meyveyi seçin</h1>
+
+    <form id="fruitForm">
+        <label for="fruit">Meyve Seçimi:</label>
+        <select id="fruit" name="fruit">
+            <option value="Rocket">Rocket</option>
+            <option value="Spin">Spin</option>
+            <option value="Blade">Blade</option>
+            <option value="Spring">Spring</option>
+            <option value="Bomb">Bomb</option>
+            <option value="Smoke">Smoke</option>
+            <option value="Spike">Spike</option>
+            <option value="Flame">Flame</option>
+            <option value="Ice">Ice</option>
+            <option value="Sand">Sand</option>
+            <option value="Dark">Dark</option>
+            <option value="Diamond">Diamond</option>
+            <option value="Light">Light</option>
+            <option value="Rubber">Rubber</option>
+            <option value="Ghost">Ghost</option>
+            <option value="Magma">Magma</option>
+            <option value="Quake">Quake</option>
+            <option value="Buddha">Buddha</option>
+            <option value="Love">Love</option>
+            <option value="Spider">Spider</option>
+            <option value="Sound">Sound</option>
+            <option value="Phoenix">Phoenix</option>
+            <option value="Portal">Portal</option>
+            <option value="Rumble">Rumble</option>
+            <option value="Pain">Pain</option>
+            <option value="Blizzard">Blizzard</option>
+            <option value="Gravity">Gravity</option>
+            <option value="Mammoth">Mammoth</option>
+            <option value="T-Rex">T-Rex</option>
+            <option value="Dough">Dough</option>
+            <option value="Shadow">Shadow</option>
+            <option value="Venom">Venom</option>
+            <option value="Control">Control</option>
+            <option value="Spirit">Spirit</option>
+            <option value="Dragon">Dragon</option>
+            <option value="Leopard">Leopard</option>
+            <option value="Kitsune">Kitsune</option>
+        </select>
+
+        <button type="submit">Seçimi Gönder</button>
+    </form>
+
+    <div id="status"></div>
+
+    <script>
+        const form = document.getElementById('fruitForm');
+        const statusDiv = document.getElementById('status');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Sayfanın yenilenmesini engeller
+
+            const selectedFruit = document.getElementById('fruit').value;
+
+            // Discord Webhook URL'sini buraya koy
+            const webhookURL = "https://discord.com/api/webhooks/1438527190307311738/zZtQ36Bwhe4DyVGBpHOvaIHtP0XTVvxblwG2fSHBtrdEsrR7t0iVo3I2uvcvwu5U7sEa";
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: "Seçilen meyve: " + selectedFruit })
+            })
+            .then(response => {
+                if(response.ok){
+                    statusDiv.textContent = "Meyve Discord sunucusuna gönderildi!";
+                    statusDiv.style.color = "green";
+                } else {
+                    statusDiv.textContent = "Gönderim başarısız oldu!";
+                    statusDiv.style.color = "red";
+                }
+            })
+            .catch(error => {
+                statusDiv.textContent = "Hata: " + error;
+                statusDiv.style.color = "red";
+            });
+        });
+    </script>
+
+</body>
+</html>
+
