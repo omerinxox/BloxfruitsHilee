@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bloxfruit Form — Discord Webhook</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg,#071823,#0b2630);
+      color: #cceeff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px;
+      width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    h1 {
+      color: #11d3ff;
+      font-size: 20px;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+      color: #9fdcff;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 10px;
+      background: linear-gradient(90deg,#11d3ff,#00a3ff);
+      color: #002123;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Bloxfruit Form → Discord</h1>
+
+    <label for="item">Meyve Seç</label>
+    <select id="item">
+      <option value="Dragon">Dragon</option>
+      <option value="Light">Light</option>
+      <option value="Dark">Dark</option>
+      <option value="Flame">Flame</option>
+      <option value="Ice">Ice</option>
+    </select>
+
+    <label for="note">Kısa Açıklama</label>
+    <input id="note" type="text" placeholder="örnek: test mesajı" />
+
+    <button id="sendBtn">Gönder</button>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    const webhook = "https://discord.com/api/webhooks/1438527190307311738/zZtQ36Bwhe4DyVGBpHOvaIHtP0XTVvxblwG2fSHBtrdEsrR7t0iVo3I2uvcvwu5U7sEa";
+    const sendBtn = document.getElementById('sendBtn');
+    const itemEl = document.getElementById('item');
+    const noteEl = document.getElementById('note');
+    const status = document.getElementById('status');
+
+    sendBtn.addEventListener('click', async () => {
+      const payload = {
+        username: "FormBot",
+        embeds: [{
+          title: "Yeni Form Gönderimi",
+          color: 5814783,
+          fields: [
+            { name: "Item", value: itemEl.value, inline: true },
+            { name: "Açıklama", value: noteEl.value || "(boş)", inline: true },
+            { name: "Zaman", value: new Date().toLocaleString(), inline: false }
+          ]
+        }]
+      };
+
+      status.textContent = "Gönderiliyor...";
+      try {
+        const res = await fetch(webhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if(res.ok){
+          status.textContent = "✅ Discord'a başarıyla gönderildi!";
+        } else {
+          status.textContent = "❌ Hata: " + res.status;
+        }
+      } catch(e){
+        status.textContent = "⚠️ Gönderim başarısız (tarayıcı engellemiş olabilir)";
+      }
+    });
+  </script>
+</body>
+</html>
